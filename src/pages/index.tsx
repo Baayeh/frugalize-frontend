@@ -1,6 +1,9 @@
 import styles from '@/styles/Home.module.css';
 import Head from 'next/head';
 import Image from 'next/image';
+import Link from 'next/link';
+import { BsApple } from 'react-icons/bs';
+import { FcGoogle } from 'react-icons/fc';
 
 export default function Home() {
   return (
@@ -12,8 +15,47 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <h1 className="text-2xl font-extrabold">Frugalize.</h1>
-        
+        <div>
+          <Image
+            src="https://res.cloudinary.com/dskl0qde4/image/upload/v1679985230/frugalize_logo-blue_luxoa0.png"
+            alt="Frugalize"
+            width={300}
+            height={300}
+            className={styles['bounce-in-top']}
+          />
+        </div>
+        <p
+          className={`${styles['tracking-in-contract']} italic text-center text-xl mt-1`}
+        >
+          Pay your way
+        </p>
+        <div
+          className={`${styles['fade-in']} mt-16 flex flex-col items-center`}
+        >
+          <div className="flex gap-4 items-center">
+            <Link
+              href="/auth/login"
+              className="bg-white text-black px-10 py-3 rounded-2xl hover:bg-[#b6b6b6] transition-all duration-300 ease-in-out"
+            >
+              Sign In
+            </Link>
+            <button className="block bg-[#3b3b3b] p-4 rounded-2xl hover:bg-[#555555] transition-all duration-300 ease-in-out">
+              <span>
+                <BsApple />
+              </span>
+            </button>
+            <button className="block bg-[#3b3b3b] p-4 rounded-2xl hover:bg-[#555555] transition-all duration-300 ease-in-out">
+              <span>
+                <FcGoogle />
+              </span>
+            </button>
+          </div>
+          <div className={styles['sign-up']}>
+            <Link href="/auth/register">
+              Sign Up
+            </Link>
+          </div>
+        </div>
       </main>
     </>
   );
