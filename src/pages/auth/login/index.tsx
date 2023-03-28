@@ -86,11 +86,6 @@ const Login = () => {
           width={128}
           height={128}
         />
-        {/* <img
-          src="https://res.cloudinary.com/dskl0qde4/image/upload/v1678001270/undraw_my_app_re_gxtj_nlutpw.svg"
-          alt="register logo"
-          className="w-[8rem] mx-auto"
-        /> */}
       </div>
 
       <div className="form-container mt-6 w-full">
