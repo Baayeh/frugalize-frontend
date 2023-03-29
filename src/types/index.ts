@@ -16,3 +16,9 @@ export type StepActionProps = {
   prevStep: () => void;
   nextStep: () => void;
 };
+
+export type PasswordVisibilityProps = {
+  showPassword: boolean;
+  handleClickShowPassword: () => void;
+  handleMouseDownPassword: (event: React.MouseEvent<HTMLButtonElement>) => void;
+};

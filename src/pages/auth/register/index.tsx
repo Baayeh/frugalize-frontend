@@ -1,13 +1,15 @@
 import AuthenticationInfo from '@/components/register/AuthenticationInfo';
 import IncomeInfo from '@/components/register/IncomeInfo';
 import PersonalInfo from '@/components/register/PersonalInfo';
+import RegisterLoader from '@/components/register/RegisterLoader';
 import { RegisterValuesProps } from '@/types';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import { Form, Formik } from 'formik';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
 import { BsApple, BsArrowLeft, BsFacebook } from 'react-icons/bs';
 import { FcGoogle } from 'react-icons/fc';
 import * as Yup from 'yup';
@@ -36,13 +38,25 @@ const validationSchema = Yup.object({
     // )
     .required('Password is required'),
   income: Yup.string()
-    .matches(/^[0-9]+$/, 'Transaction ID must be digits')
+    .matches(/^[0-9]+$/, 'Income must be digits')
     .min(3, 'Income must have at least 3 digits')
     .required('Income is required'),
 });
 
 const Register = () => {
   const [step, setActiveStep] = useState(1);
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false);
+  const router = useRouter();
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+  };
 
   const nextStep = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -53,8 +67,33 @@ const Register = () => {
   };
 
   const onSubmit = (values: RegisterValuesProps) => {
-    console.log(values);
+    setLoading(true);
+
+    const user = {
+      name: values.name,
+      username: values.username,
+      email: values.email,
+      password: values.password,
+    };
+
+    const income = {
+      income: values.income,
+    };
+
+    setTimeout(() => {
+      setIsCompleted(true);
+      console.log(user);
+      console.log(income);
+    }, 5000);
   };
+
+  useEffect(() => {
+    if (isCompleted === true) {
+      setTimeout(() => {
+        router.push('/dashboard');
+      }, 3000);
+    }
+  }, [isCompleted, router]);
 
   const renderComponents = () => {
     switch (step) {
@@ -63,9 +102,20 @@ const Register = () => {
           <PersonalInfo step={step} prevStep={prevStep} nextStep={nextStep} />
         );
       case 2:
-        return <AuthenticationInfo />;
+        return (
+          <AuthenticationInfo
+            step={step}
+            prevStep={prevStep}
+            nextStep={nextStep}
+            showPassword={showPassword}
+            handleClickShowPassword={handleClickShowPassword}
+            handleMouseDownPassword={handleMouseDownPassword}
+          />
+        );
       case 3:
-        return <IncomeInfo />;
+        return (
+          <IncomeInfo step={step} prevStep={prevStep} nextStep={nextStep} />
+        );
       default:
         return (
           <PersonalInfo step={step} prevStep={prevStep} nextStep={nextStep} />
@@ -134,6 +184,9 @@ const Register = () => {
           </p>
         </div>
       </div>
+
+      {/* Loader */}
+      {loading && <RegisterLoader isCompleted={isCompleted} />}
     </section>
   );
 };

@@ -8,7 +8,7 @@ const StepActions = ({ step, prevStep, nextStep }: StepActionProps) => {
       <Button onClick={prevStep} disabled={step === 1}>
         Back
       </Button>
-      {step === 2 ? (
+      {step === 3 ? (
         <Button type="submit">Sign up</Button>
       ) : (
         <Button onClick={nextStep}>Next</Button>
