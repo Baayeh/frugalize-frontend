@@ -2,9 +2,10 @@ import AuthenticationInfo from '@/components/register/AuthenticationInfo';
 import IncomeInfo from '@/components/register/IncomeInfo';
 import PersonalInfo from '@/components/register/PersonalInfo';
 import RegisterLoader from '@/components/register/RegisterLoader';
-import { RegisterValuesProps } from '@/types';
+import { RegisterValuesProps } from '@/utils/types';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
+import axios from 'axios';
 import { Form, Formik } from 'formik';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -12,7 +13,11 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { BsApple, BsArrowLeft, BsFacebook } from 'react-icons/bs';
 import { FcGoogle } from 'react-icons/fc';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 import * as Yup from 'yup';
+
+const MySwal = withReactContent(Swal);
 
 const initialValues: RegisterValuesProps = {
   name: '',
@@ -48,6 +53,7 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
+  const [message, setMessage] = useState('');
   const router = useRouter();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -66,32 +72,75 @@ const Register = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const onSubmit = (values: RegisterValuesProps) => {
-    setLoading(true);
+  const displayErrors = (errorArray: string[] | null) => {
+    return (
+      <ul>
+        {errorArray?.map((error) => (
+          <li key={error}>{`\u2022 ${error}`}</li>
+        ))}
+      </ul>
+    );
+  };
 
+  const onSubmit = (values: RegisterValuesProps) => {
     const user = {
       name: values.name,
       username: values.username,
       email: values.email,
       password: values.password,
+      income: parseFloat(values.income),
     };
 
-    const income = {
-      income: values.income,
-    };
+    axios
+      .post('/api/users/register', { user })
+      .then((response) => {
+        setLoading(true);
+        const { user, message, token } = response.data;
 
-    setTimeout(() => {
-      setIsCompleted(true);
-      console.log(user);
-      console.log(income);
-    }, 5000);
+        setMessage(message);
+
+        // save user data to local storage
+        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('token', token);
+        setTimeout(() => {
+          setIsCompleted(true);
+        }, 3000);
+      })
+      .catch((err) => {
+        if (err.response) {
+          if (err.response.status === 422) {
+            const { message, errors } = err.response.data;
+
+            MySwal.fire({
+              toast: true,
+              position: 'top-end',
+              icon: 'error',
+              title: message,
+              html: displayErrors(errors),
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+            });
+          }
+
+          MySwal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'error',
+            title: 'Something went wrong',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+          });
+        }
+      });
   };
 
   useEffect(() => {
     if (isCompleted === true) {
       setTimeout(() => {
         router.push('/dashboard');
-      }, 3000);
+      }, 1000);
     }
   }, [isCompleted, router]);
 
@@ -186,7 +235,9 @@ const Register = () => {
       </div>
 
       {/* Loader */}
-      {loading && <RegisterLoader isCompleted={isCompleted} />}
+      {loading && (
+        <RegisterLoader isCompleted={isCompleted} message={message} />
+      )}
     </section>
   );
 };

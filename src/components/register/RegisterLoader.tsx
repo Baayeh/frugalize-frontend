@@ -3,9 +3,10 @@ import { Triangle } from 'react-loader-spinner';
 
 type IsCompletedProp = {
   isCompleted: boolean;
+  message: string;
 };
 
-const RegisterLoader = ({ isCompleted }: IsCompletedProp) => {
+const RegisterLoader = ({ isCompleted, message }: IsCompletedProp) => {
   return (
     <section className="absolute z-20 bg-[#222] w-full h-screen flex flex-col items-center justify-center">
       <Triangle
@@ -17,7 +18,7 @@ const RegisterLoader = ({ isCompleted }: IsCompletedProp) => {
         visible={true}
       />
       <h1 className="text-xl">
-        {isCompleted ? 'Your account is ready' : 'Setting up your account in a moment'}
+        {isCompleted ? message : 'Setting up your account in a moment'}
       </h1>
     </section>
   );

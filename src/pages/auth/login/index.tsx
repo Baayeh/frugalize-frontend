@@ -1,4 +1,4 @@
-import { LoginValuesProps } from '@/types';
+import { LoginValuesProps } from '@/utils/types';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import {
@@ -82,9 +82,10 @@ const Login = () => {
         <Image
           src="https://res.cloudinary.com/dskl0qde4/image/upload/v1678001270/undraw_my_app_re_gxtj_nlutpw.svg"
           alt="register logo"
-          className="w-[8rem] mx-auto"
+          className="w-[8rem] h-[8rem] mx-auto"
           width={128}
           height={128}
+          priority
         />
       </div>
 
@@ -111,8 +112,9 @@ const Login = () => {
                         <Box>
                           <TextField
                             label="Email"
+                            type="email"
                             error={meta.touched && meta.error ? true : false}
-                            id="outlined-start-adornment"
+                            id="email"
                             sx={{ m: 1, width: '95%' }}
                             {...field}
                             helperText={<ErrorMessage name="email" />}
@@ -138,7 +140,7 @@ const Login = () => {
                             type={showPassword ? 'text' : 'password'}
                             label="Password"
                             error={meta.touched && meta.error ? true : false}
-                            id="outlined-start-adornment"
+                            id="password"
                             sx={{ m: 1, width: '95%' }}
                             {...field}
                             helperText={<ErrorMessage name="password" />}
@@ -187,7 +189,7 @@ const Login = () => {
                           cy="12"
                           r="10"
                           stroke="currentColor"
-                          stroke-width="4"
+                          strokeWidth="4"
                         ></circle>
                         <path
                           className="opacity-75"
