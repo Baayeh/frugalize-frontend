@@ -39,4 +39,4 @@ export type NewUserProps = {
   username: string;
   income: number;
   email: string;
-}
+};

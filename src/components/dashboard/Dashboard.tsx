@@ -12,6 +12,10 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { BiLogOutCircle } from 'react-icons/bi';
 import { useDispatch } from 'react-redux';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
+const MySwal = withReactContent(Swal);
 
 type Props = {};
 
@@ -24,9 +28,21 @@ const Dashboard = (props: Props) => {
   const token = localStorage.getItem('token');
 
   const handleLogout = () => {
-    dispatch(signUserOut(token!));
-    localStorage.clear();
-    router.push('/auth/login');
+    dispatch(signUserOut(token!)).then((res) => {
+      const { message } = res.payload;
+      MySwal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: 'success',
+        title: message,
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+      });
+
+      localStorage.clear();
+      router.push('/auth/login');
+    });
   };
 
   return (
