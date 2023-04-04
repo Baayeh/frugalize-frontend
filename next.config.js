@@ -28,8 +28,7 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'res.cloudinary.com',
         port: '',
-        pathname:
-          '/dskl0qde4/image/upload/v1680080189/motivation_ynaoyx.png',
+        pathname: '/dskl0qde4/image/upload/v1680080189/motivation_ynaoyx.png',
       },
     ],
   },
