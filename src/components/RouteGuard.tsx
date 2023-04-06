@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -10,45 +10,40 @@ type Props = {
 const RouteGuard = ({ children }: Props) => {
   const router = useRouter();
   const [authorized, setAuthorized] = useState(false);
-  const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
-
-  useEffect(() => {
-    const getToken = () => {
-      return new Promise((resolve) => {
-        localStorage.getItem('token') &&
-          setToken(localStorage.getItem('token'));
-        resolve('done');
-      });
-    };
-
-    getToken().then(() => {
-      if (!token) {
-        setAuthorized(false);
-        router.push('/auth/login');
-      } else {
-        setAuthorized(true);
-      }
-    });
-  }, [router, token]);
+  // const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
 
   // useEffect(() => {
-  //   const userToken = localStorage.getItem('token');
-  //   const authCheck = async () => {
-  //     if (!userToken) {
+  //   const getToken = () => {
+  //     return new Promise((resolve) => {
+  //       localStorage.getItem('token') &&
+  //         setToken(localStorage.getItem('token'));
+  //       resolve('done');
+  //     });
+  //   };
+
+  //   getToken().then(() => {
+  //     if (!token) {
   //       setAuthorized(false);
-  //       await router.push('/auth/login');
+  //       router.push('/auth/login');
   //     } else {
   //       setAuthorized(true);
   //     }
-  //   };
+  //   });
+  // }, [router, token]);
 
-  //   void authCheck();
+  useEffect(() => {
+    const userToken = localStorage.getItem('token');
+    const authCheck = async () => {
+      if (!userToken) {
+        setAuthorized(false);
+        await router.push('/auth/login');
+      } else {
+        setAuthorized(true);
+      }
+    };
 
-  //   // const preventAccess = () => setAuthorized(false);
-
-  //   // router.events.on('routeChangeStart', preventAccess);
-  //   // router.events.on('routeChangeComplete', authCheck);
-  // }, [router]);
+    void authCheck();
+  }, [router]);
 
   return authorized && children;
 };

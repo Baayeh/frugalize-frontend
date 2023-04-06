@@ -24,8 +24,8 @@ export type PasswordVisibilityProps = {
 };
 
 export type AddCategoryProps = {
-  cat_name: string;
-  image: string | null;
+  name: string;
+  cat_budget: string;
 };
 
 export type AddTransactionProps = {
@@ -39,4 +39,9 @@ export type NewUserProps = {
   username: string;
   income: number;
   email: string;
+};
+
+export type NewCategoryProps = {
+  data: FormData;
+  token: string;
 };
