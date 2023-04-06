@@ -5,13 +5,13 @@ import Insights from '@/components/dashboard/Insights';
 import LatestTransaction from '@/components/dashboard/LatestTransaction';
 import QuickAction from '@/components/dashboard/QuickAction';
 import Navigation from '@/components/navigation/Navigation';
+import { useAppDispatch } from '@/redux/hooks';
 import { AppDispatch } from '@/redux/store';
 import { signUserOut } from '@/redux/users/userSlice';
 import { Button } from '@mui/material';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { BiLogOutCircle } from 'react-icons/bi';
-import { useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 
@@ -24,7 +24,7 @@ const Dashboard = (props: Props) => {
   const balance = 1000;
   const spent = 500;
   const router = useRouter();
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const token = localStorage.getItem('token');
 
   const handleLogout = () => {
