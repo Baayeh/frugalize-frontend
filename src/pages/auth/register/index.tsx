@@ -11,7 +11,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import { BsApple, BsArrowLeft, BsFacebook } from 'react-icons/bs';
+import { BsApple, BsArrowLeft } from 'react-icons/bs';
 import { FcGoogle } from 'react-icons/fc';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
@@ -177,7 +177,7 @@ const Register = () => {
       <Button
         color="success"
         className="!rounded-full w-16 h-16 !absolute top-3 left-3"
-        href="/auth"
+        onClick={() => router.back()}
       >
         <span>
           <BsArrowLeft className="text-xl text-white" />
