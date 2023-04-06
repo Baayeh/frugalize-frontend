@@ -29,7 +29,7 @@ const QuickAction = (props: Props) => {
           <span className="text-sm">Account</span>
         </Link>
         <Link
-          href="/dashboard/categories"
+          href="/categories"
           className={`${styles.action} flex flex-col justify-center items-center`}
         >
           <span>
