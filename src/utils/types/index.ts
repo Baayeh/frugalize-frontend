@@ -45,3 +45,10 @@ export type NewCategoryProps = {
   data: FormData;
   token: string;
 };
+
+export type CategoryProp = {
+  id: number;
+  name: string;
+  cat_budget: string;
+  image_url: string;
+};
