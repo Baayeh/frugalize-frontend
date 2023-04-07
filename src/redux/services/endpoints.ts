@@ -1,4 +1,4 @@
-import { NewCategoryProps } from '@/utils/types';
+import { NewCategoryProps, NewTransactionProps } from '@/utils/types';
 import instance from './axios';
 
 // Logout A User
@@ -21,5 +21,11 @@ export const fetchAllCategories = async (token: string) => {
 export const createCategory = async ({ data, token }: NewCategoryProps) => {
   return await instance.post('categories', data, {
     headers: { 'Content-Type': 'multipart/form-data', Authorization: token },
+  });
+};
+// Add a transaction
+export const createTransaction = async ({ data, token }: NewTransactionProps) => {
+  return await instance.post('expenses', data, {
+    headers: { Authorization: token },
   });
 };

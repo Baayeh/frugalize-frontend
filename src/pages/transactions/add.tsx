@@ -1,4 +1,7 @@
-import { AddTransactionProps } from '@/utils/types';
+import { getAllCategories } from '@/redux/categories/categorySlice';
+import { useAppDispatch } from '@/redux/hooks';
+import { addTransaction } from '@/redux/transactions/transactionSlice';
+import { AddTransactionProps, CategoryProp } from '@/utils/types';
 import { FormHelperText, TextField } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -8,31 +11,96 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import { ErrorMessage, Field, FieldProps, Form, Formik } from 'formik';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { BsArrowLeft } from 'react-icons/bs';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 import * as Yup from 'yup';
 
+const MySwal = withReactContent(Swal);
+
 const initialValues: AddTransactionProps = {
-  transaction_name: '',
+  name: '',
   amount: '',
   category_id: '',
 };
 
 const validationSchema = Yup.object({
-  transaction_name: Yup.string()
+  name: Yup.string()
     .min(4, 'Transaction name must be at least 4 characters')
     .required('Transaction name is required'),
   amount: Yup.string()
     .matches(/^[0-9]+$/, 'Amount must be digits')
     .required('Amount is required'),
-  category_id: Yup.number().required('Select a category'),
+  category_id: Yup.string().required('Select a category'),
 });
 
 const AddTransaction = () => {
+  const [categories, setCategories] = useState<[CategoryProp]>();
+  const dispatch = useAppDispatch();
   const router = useRouter();
 
+  useEffect(() => {
+    dispatch(getAllCategories()).then((res) => {
+      if (res.meta.requestStatus === 'fulfilled') {
+        setCategories(res.payload);
+      }
+    });
+  }, [dispatch]);
+
   const onSubmit = (values: AddTransactionProps) => {
-    console.log(values);
+    const token = localStorage.getItem('token');
+    const data = {
+      name: values.name,
+      amount: values.amount,
+      category_id: values.category_id,
+    };
+
+    if (token) {
+      const payload = {
+        data,
+        token: token,
+      };
+
+      dispatch(addTransaction(payload))
+        .then((res) => {
+          const { message } = res.payload;
+          if (res.meta.requestStatus === 'rejected') {
+            MySwal.fire({
+              toast: true,
+              position: 'top-end',
+              icon: 'error',
+              title: message,
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+            });
+          } else {
+            MySwal.fire({
+              toast: true,
+              position: 'top-end',
+              icon: 'success',
+              title: message,
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+            }).then(() => {
+              router.push('/transactions');
+            });
+          }
+        })
+        .catch((err) => {
+          MySwal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'error',
+            title: 'Something went wrong! Please try again',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+          });
+        });
+    }
   };
 
   return (
@@ -59,7 +127,7 @@ const AddTransaction = () => {
           return (
             <Form>
               <div className="my-5">
-                <Field name="transaction_name">
+                <Field name="name">
                   {({ field, meta }: FieldProps) => {
                     return (
                       <TextField
@@ -68,7 +136,7 @@ const AddTransaction = () => {
                         variant="outlined"
                         {...field}
                         sx={{ width: '100%' }}
-                        helperText={<ErrorMessage name="transaction_name" />}
+                        helperText={<ErrorMessage name="name" />}
                         error={meta.touched && meta.error ? true : false}
                       />
                     );
@@ -112,11 +180,16 @@ const AddTransaction = () => {
                           label="Category"
                         >
                           <MenuItem value="">
-                            <em>None</em>
+                            <em>Select a category</em>
                           </MenuItem>
-                          <MenuItem value={1}>Food & Drinks</MenuItem>
-                          <MenuItem value={2}>Utilities</MenuItem>
-                          <MenuItem value={3}>Some stuff</MenuItem>
+                          {categories &&
+                            categories.map((category) => {
+                              return (
+                                <MenuItem key={category.id} value={category.id}>
+                                  {category.name}
+                                </MenuItem>
+                              );
+                            })}
                         </Select>
                         {meta.touched && meta.error && (
                           <FormHelperText>

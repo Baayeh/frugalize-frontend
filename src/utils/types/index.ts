@@ -29,7 +29,7 @@ export type AddCategoryProps = {
 };
 
 export type AddTransactionProps = {
-  transaction_name: string;
+  name: string;
   amount: string;
   category_id: string;
 };
@@ -43,6 +43,15 @@ export type NewUserProps = {
 
 export type NewCategoryProps = {
   data: FormData;
+  token: string;
+};
+
+export type NewTransactionProps = {
+  data: {
+    name: string;
+    amount: string;
+    category_id: string;
+  };
   token: string;
 };
 

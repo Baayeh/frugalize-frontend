@@ -47,7 +47,7 @@ export default function App({
   const { getRemainingTime } = useIdleTimer({
     onIdle,
     onActive,
-    timeout: 10_000,
+    timeout: 300_000,
     throttle: 500,
   });
 

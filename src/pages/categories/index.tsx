@@ -5,7 +5,7 @@ import { CategoryProp } from '@/utils/types';
 import Button from '@mui/material/Button';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import { BsApple, BsArrowLeft } from 'react-icons/bs';
+import { BsArrowLeft } from 'react-icons/bs';
 
 type CategoriesProps = {
   categories: [CategoryProp];
