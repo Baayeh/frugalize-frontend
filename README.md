@@ -12,6 +12,7 @@
 - [📖 About the Project](#about-project)
   - [🛠 Built With](#built-with)
     - [Tech Stack](#tech-stack)
+    - [BackEnd](#backend)
     - [Key Features](#key-features)
   - [🚀 Live Demo](#live-demo)
   - [📹 Video Presentation](#video-demo)
@@ -38,14 +39,14 @@
 ## Screenshots
 
 <div>
-  <img src="./screenshots/splash_screen.png" alt="logo" width="300"  height="auto" />
-  <img src="./screenshots/login.png" alt="logo" width="300"  height="auto" />
-  <img src="./screenshots/signUp.png" alt="logo" width="300"  height="auto" />
-  <img src="./screenshots/homepage.png" alt="logo" width="300"  height="auto" />
-  <img src="./screenshots/sidebar.png" alt="logo" width="300"  height="auto" />
-  <img src="./screenshots/cat_transactions.png" alt="logo" width="300"  height="auto" />
-  <img src="./screenshots/add_cat.png" alt="logo" width="300"  height="auto" />
-  <img src="./screenshots/add_transaction.png" alt="logo" width="300"  height="auto" />
+  <img src="./screenshots/mobile.png" alt="logo" width="300"  height="auto" />
+  <img src="./screenshots/mobile1.png" alt="logo" width="300"  height="auto" />
+  <img src="./screenshots/mobile2.png" alt="logo" width="300"  height="auto" />
+  <img src="./screenshots/mobile3.png" alt="logo" width="300"  height="auto" />
+  <img src="./screenshots/mobile4.png" alt="logo" width="300"  height="auto" />
+  <img src="./screenshots/mobile5.png" alt="logo" width="300"  height="auto" />
+  <img src="./screenshots/mobile6.png" alt="logo" width="300"  height="auto" />
+  <img src="./screenshots/mobile7.png" alt="logo" width="300"  height="auto" />
 </div>
 
 ## 🛠 Built With <a name="built-with"></a>
@@ -96,7 +97,7 @@
 ## 🚀 Live Demo <a name="live-demo"></a>
 
 - [Version 1](https://frugalize.onrender.com/) 
-- [FRUGALIZE Version 2](Coming soon..)
+- [FRUGALIZE Version 2] - Coming soon...
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
