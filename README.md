@@ -2,7 +2,7 @@
 
 <div align="center">
   <!-- You are encouraged to replace this logo with your own! Otherwise you can also remove it. -->
-  <img src="./app/assets/images/frugalize-logo.png" alt="logo" width="300"  height="auto" />
+  <img src="./screenshots/frugalize-logo.png" alt="logo" width="300"  height="auto" />
   <br/>
 
 </div>
