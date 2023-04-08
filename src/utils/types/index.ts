@@ -60,4 +60,14 @@ export type CategoryProp = {
   name: string;
   cat_budget: string;
   image_url: string;
+  cat_total_expenses: string;
+};
+
+export type LatestProps = {
+  id: number;
+  name: string;
+  amount: string;
+  category: string;
+  cat_image: string;
+  created_at: string;
 };

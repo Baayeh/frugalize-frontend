@@ -1,7 +1,6 @@
 'use client';
 
 import { Providers } from '@/components/Provider';
-import { useAppDispatch } from '@/redux/hooks';
 import '@/styles/globals.css';
 import createEmotionCache from '@/utils/createEmotionCache';
 import { theme } from '@/utils/theme';
@@ -34,8 +33,6 @@ export default function App({
   const [remaining, setRemaining] = useState<number>(0);
   const router = useRouter();
 
-  // const logout = () => {};
-
   const onIdle = () => {
     setIsIdle(true);
   };
@@ -47,7 +44,7 @@ export default function App({
   const { getRemainingTime } = useIdleTimer({
     onIdle,
     onActive,
-    timeout: 300_000,
+    timeout: 1800_000,
     throttle: 500,
   });
 
@@ -94,7 +91,7 @@ export default function App({
       <CacheProvider value={emotionCache}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <p>{remaining} seconds</p>
+          {/* <p>{remaining} seconds</p> */}
           <Providers>
             <Component {...pageProps} />
           </Providers>

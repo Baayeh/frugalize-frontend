@@ -29,7 +29,7 @@ const AllCategories = () => {
       <div className="flex justify-between items-center p-4">
         <Button
           className="w-16 h-16 rounded-full"
-          onClick={() => router.back()}
+          onClick={() => router.push('/dashboard')}
         >
           <span>
             <BsArrowLeft className="text-xl text-white" />
