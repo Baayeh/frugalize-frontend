@@ -22,7 +22,6 @@ import withReactContent from 'sweetalert2-react-content';
 const MySwal = withReactContent(Swal);
 
 const Dashboard = () => {
-  const balance = 1000;
   const router = useRouter();
   const dispatch = useAppDispatch();
   const token = localStorage.getItem('token');
