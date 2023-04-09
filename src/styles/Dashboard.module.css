@@ -1,0 +1,3 @@
+a.action {
+  @apply before:absolute before:w-[0] before:h-1 before:bg-black before:bottom-0 hover:before:w-[2rem] before:transition-all before:duration-300 before:ease-in-out;
+}

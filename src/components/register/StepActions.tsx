@@ -1,4 +1,4 @@
-import { StepActionProps } from '@/types';
+import { StepActionProps } from '@/utils/types';
 import { Button } from '@mui/material';
 import React from 'react';
 

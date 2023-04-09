@@ -1,4 +1,4 @@
-import { LoginValuesProps } from '@/types';
+import { LoginValuesProps } from '@/utils/types';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import {
@@ -9,6 +9,7 @@ import {
   InputAdornment,
   TextField,
 } from '@mui/material';
+import axios, { AxiosResponse } from 'axios';
 import { ErrorMessage, Field, FieldProps, Form, Formik } from 'formik';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -18,11 +19,15 @@ import { BsApple, BsArrowLeft } from 'react-icons/bs';
 import { FcGoogle } from 'react-icons/fc';
 import { HiOutlineUser } from 'react-icons/hi';
 import { RiLockPasswordLine } from 'react-icons/ri';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 import * as Yup from 'yup';
 
+const MySwal = withReactContent(Swal);
+
 const initialValues: LoginValuesProps = {
-  email: 'admin@example.com',
-  password: 'admbaayeh',
+  email: '',
+  password: '',
 };
 
 const validationSchema = Yup.object({
@@ -49,19 +54,66 @@ const Login = () => {
     event.preventDefault();
   };
 
-  const authenticateUser = () => {
-    setLoading(true);
+  const authenticateUser = (response: AxiosResponse<any, any>) => {
 
-    setTimeout(() => {
-      setLoading(false);
-      router.push('/dashboard');
-    }, 3000);
+    const { user, message, token } = response.data;
+
+    // save user data to local storage
+    localStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem('token', token);
+
+    setLoading(false);
+    router.push('/dashboard');
+
+    MySwal.fire({
+      toast: true,
+      position: 'top-end',
+      icon: 'success',
+      title: message,
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+    });
   };
 
   const onSubmit = (values: LoginValuesProps) => {
-    if (values.email && values.password) {
-      authenticateUser();
-    }
+    setLoading(true);
+    const user = {
+      email: values.email,
+      password: values.password,
+    };
+
+    axios
+      .post('/api/users/login', { user })
+      .then((response) => {
+        authenticateUser(response);
+      })
+      .catch((err) => {
+        setLoading(false);
+        if (err.response && err.response.status === 401) {
+          const { message } = err.response.data;
+
+          MySwal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'error',
+            title: message,
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+          });
+        } else {
+          MySwal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'error',
+            title: 'Something went wrong',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+          });
+        }
+      });
   };
 
   return (
@@ -82,9 +134,10 @@ const Login = () => {
         <Image
           src="https://res.cloudinary.com/dskl0qde4/image/upload/v1678001270/undraw_my_app_re_gxtj_nlutpw.svg"
           alt="register logo"
-          className="w-[8rem] mx-auto"
+          className="w-[8rem] h-[8rem] mx-auto"
           width={128}
           height={128}
+          priority
         />
       </div>
 
@@ -111,8 +164,9 @@ const Login = () => {
                         <Box>
                           <TextField
                             label="Email"
+                            type="email"
                             error={meta.touched && meta.error ? true : false}
-                            id="outlined-start-adornment"
+                            id="email"
                             sx={{ m: 1, width: '95%' }}
                             {...field}
                             helperText={<ErrorMessage name="email" />}
@@ -138,7 +192,7 @@ const Login = () => {
                             type={showPassword ? 'text' : 'password'}
                             label="Password"
                             error={meta.touched && meta.error ? true : false}
-                            id="outlined-start-adornment"
+                            id="password"
                             sx={{ m: 1, width: '95%' }}
                             {...field}
                             helperText={<ErrorMessage name="password" />}
@@ -187,7 +241,7 @@ const Login = () => {
                           cy="12"
                           r="10"
                           stroke="currentColor"
-                          stroke-width="4"
+                          strokeWidth="4"
                         ></circle>
                         <path
                           className="opacity-75"

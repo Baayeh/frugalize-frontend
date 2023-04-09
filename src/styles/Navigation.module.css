@@ -1,0 +1,11 @@
+nav.navigation {
+  @apply px-5 py-3 fixed bottom-0 z-50 w-full bg-[#222];
+}
+
+a.active {
+  @apply text-green-500;
+}
+
+ul.navbar-list {
+  @apply flex justify-between;
+}

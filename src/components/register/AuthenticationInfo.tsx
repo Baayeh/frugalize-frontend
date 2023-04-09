@@ -1,4 +1,4 @@
-import { PasswordVisibilityProps, StepActionProps } from '@/types';
+import { PasswordVisibilityProps, StepActionProps } from '@/utils/types';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import IconButton from '@mui/material/IconButton';
