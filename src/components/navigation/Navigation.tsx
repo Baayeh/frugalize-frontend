@@ -45,7 +45,7 @@ const Navigation = () => {
         <div className="flex gap-6">
           <li>
             <Link
-              href="/"
+              href="/dashboard"
               className={`${
                 currRoute === '/dashboard' ? styles.active : ''
               } p-1 flex flex-col justify-center items-center gap-1`}
