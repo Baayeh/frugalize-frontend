@@ -1,12 +1,10 @@
 'use client';
 
 import Category from '@/components/categories/Category';
-import TransactionProgressBar from '@/components/categories/TransactionProgressBar';
 import { getSingleCategory } from '@/redux/categories/categorySlice';
 import { useAppDispatch } from '@/redux/hooks';
 import { CategoryProp } from '@/utils/types';
 import Button from '@mui/material/Button';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { BsArrowLeft } from 'react-icons/bs';
@@ -90,26 +88,35 @@ const CategoryDetails = () => {
     }
   }, [categoryData]);
 
-  // console.log(expenses);
-
   return isLoading ? (
     <p>isLoading...</p>
   ) : (
-    <section className="p-5 mt-16">
-      <Button
-        color="success"
-        className="rounded-full w-16 h-16 absolute top-3 left-0"
-        onClick={() => router.push('/categories')}
-      >
-        <span>
-          <BsArrowLeft className="text-xl text-white" />
-        </span>
-      </Button>
+    <section className="p-5">
+      <div className="flex justify-between items-center mb-10">
+        <Button
+          color="success"
+          className="rounded-full w-16 h-16"
+          onClick={() => router.push('/categories')}
+        >
+          <span>
+            <BsArrowLeft className="text-xl text-white" />
+          </span>
+        </Button>
+        <Button
+          onClick={() => router.push('/transactions/add')}
+          className="bg-white text-black text-sm font-bold uppercase px-3 py-2 rounded hover:bg-gray-300 transition-all duration-300 ease-in-out"
+        >
+          Add new
+        </Button>
+      </div>
+
+      {/* Category Info */}
       {catInfo && <Category category={catInfo} />}
 
-      <div>
-        {expenses &&
-          expenses.map((expense, index) => {
+      {/* List of transactions for the category */}
+      {expenses && expenses.length > 0 ? (
+        <div>
+          {expenses.map((expense, index) => {
             return (
               <section key={expense.id} className="mb-6">
                 <h3>{expense.name}</h3>
@@ -136,18 +143,16 @@ const CategoryDetails = () => {
                       ₵{expense.amount}
                     </div>
                   </div>
-                  {/* <TransactionProgressBar
-                    transactionAmount={parseInt(expense.amount)}
-                    categoryBudget={parseInt(catInfo!.cat_budget)}
-                    totalTransactionAmount={parseInt(
-                      catInfo!.cat_total_expenses
-                    )}
-                  /> */}
                 </div>
               </section>
             );
           })}
-      </div>
+        </div>
+      ) : (
+        <p className="text-center font-bold text-xl">
+          No transactions recorded. Add one!
+        </p>
+      )}
     </section>
   );
 };
