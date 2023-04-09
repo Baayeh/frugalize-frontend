@@ -42,17 +42,22 @@ const AllCategories = () => {
           Add new
         </Button>
       </div>
-      <section className="p-4">
-        <h1 className="font-bold text-xl mb-4">All Categories</h1>
-        {categories &&
-          categories.map((category) => {
+      {categories && categories.length > 0 ? (
+        <section className="p-4">
+          <h1 className="font-bold text-xl mb-4">All Categories</h1>
+          {categories.map((category) => {
             return (
               <React.Fragment key={category.id}>
                 <Category category={category} />
               </React.Fragment>
             );
           })}
-      </section>
+        </section>
+      ) : (
+        <p className="text-center font-bold text-xl">
+          No categories available. Create one!
+        </p>
+      )}
     </section>
   );
 };
