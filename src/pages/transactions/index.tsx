@@ -55,17 +55,22 @@ const AllTransactions = () => {
           Add new
         </Button>
       </div>
-      <section className="p-4">
-        <h1 className="font-bold text-xl mb-4">All Transactions</h1>
-        {transactions &&
-          transactions.map((transaction) => {
+      {transactions && transactions.length > 0 ? (
+        <section className="p-4">
+          <h1 className="font-bold text-xl mb-4">All Transactions</h1>
+          {transactions.map((transaction) => {
             return (
               <React.Fragment key={transaction.id}>
                 <Transaction transaction={transaction} />
               </React.Fragment>
             );
           })}
-      </section>
+        </section>
+      ) : (
+        <p className="text-center font-bold text-xl">
+          No transactions available. Create one!
+        </p>
+      )}
     </section>
   );
 };
